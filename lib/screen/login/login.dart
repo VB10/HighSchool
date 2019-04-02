@@ -13,9 +13,24 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String title = "School Education System";
+  FocusNode myFocusNode;
+
+  double deviceWidth;
+  double deviceHeight;
+  double bottomInsight;
+
+  double height = 20;
+  @override
+  void initState() {
+    super.initState();
+    myFocusNode = FocusNode();
+  }
 
   @override
   Widget build(BuildContext context) {
+    deviceWidth = MediaQuery.of(context).size.width;
+    deviceHeight = MediaQuery.of(context).size.height;
+    bottomInsight = MediaQuery.of(context).viewInsets.bottom;
     var child2 = Padding(
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Column(
@@ -24,6 +39,8 @@ class _LoginPageState extends State<LoginPage> {
             shadowColor: Colors.black,
             elevation: 10.0,
             child: TextField(
+              focusNode: myFocusNode,
+              onTap: () => {},
               textAlign: TextAlign.left,
               maxLines: 1,
               decoration: inputDecoration(
@@ -32,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           Material(
             shadowColor: Colors.black,
@@ -45,11 +62,12 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           SizedBox(
-            height: 50,
+            height: 20,
           ),
           CustomBox(
             child: RaisedButton(
-              onPressed: () => {},
+              onPressed: () =>
+                  {print(MediaQuery.of(context).viewInsets.bottom)},
               color: LOGIN_submitButtonColor,
               child: Container(
                 child: Text(
@@ -85,18 +103,49 @@ class _LoginPageState extends State<LoginPage> {
         )
       ],
     );
-    return Scaffold(
-        body: Column(
+    var finalx = Scaffold(
+        body: Stack(
+      fit: StackFit.loose,
       children: <Widget>[
-        Expanded(
-          flex: 1,
+        Container(
+          height: bottomInsight == 0 ? deviceHeight * 0.5 : deviceHeight * 0.2,
           child: headerStack,
         ),
-        Expanded(
-          flex: 1,
+        Container(
+          margin: EdgeInsets.only(
+            top: bottomInsight == 0
+                ? deviceHeight * 0.5 - 30
+                : deviceHeight * 0.2,
+          ),
+          height: deviceHeight * 0.5,
           child: child2,
-        )
+        ),
       ],
     ));
+    var finalx2 = Scaffold(
+        body: Stack(
+      fit: StackFit.loose,
+      children: <Widget>[
+        Container(
+          height: deviceHeight * 0.2,
+          child: headerStack,
+        ),
+        Container(
+          margin: EdgeInsets.only(top: deviceHeight * 0.2),
+          child: child2,
+        ),
+      ],
+    ));
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // keyboard open
+        if (constraints.hasBoundedHeight) {
+          return finalx;
+        } else {
+          return finalx2;
+        }
+      },
+    );
   }
 }
