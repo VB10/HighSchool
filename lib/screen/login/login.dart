@@ -104,48 +104,45 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
     var finalx = Scaffold(
+      resizeToAvoidBottomInset: false,
         body: Stack(
       fit: StackFit.loose,
+      
       children: <Widget>[
-        Container(
+        AnimatedContainer(
+          duration: Duration(milliseconds: 500),
           height: bottomInsight == 0 ? deviceHeight * 0.5 : deviceHeight * 0.2,
           child: headerStack,
+          curve: Curves.linear,
         ),
-        Container(
-          margin: EdgeInsets.only(
-            top: bottomInsight == 0
-                ? deviceHeight * 0.5 - 30
-                : deviceHeight * 0.2,
-          ),
-          height: deviceHeight * 0.5,
-          child: child2,
-        ),
+        AnimatedContainer(
+            duration: Duration(milliseconds: 500),
+            curve: Curves.linear,
+            margin: EdgeInsets.only(
+              top: bottomInsight == 0
+                  ? deviceHeight * 0.5 - 30
+                  : deviceHeight * 0.2,
+            ),
+            child: child2),
       ],
     ));
     var finalx2 = Scaffold(
         body: Stack(
       fit: StackFit.loose,
       children: <Widget>[
-        Container(
+        AnimatedContainer(
           height: deviceHeight * 0.2,
+          duration: Duration(seconds: 2),
           child: headerStack,
         ),
-        Container(
+        AnimatedContainer(
+          duration: Duration(seconds: 2),
           margin: EdgeInsets.only(top: deviceHeight * 0.2),
           child: child2,
         ),
       ],
     ));
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        // keyboard open
-        if (constraints.hasBoundedHeight) {
-          return finalx;
-        } else {
-          return finalx2;
-        }
-      },
-    );
+    return finalx;
   }
 }
