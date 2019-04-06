@@ -1,49 +1,52 @@
 import 'package:flutter/material.dart';
+class MyCustomForm extends StatefulWidget {
+  @override
+  MyCustomFormState createState() {
+    return MyCustomFormState();
+  }
+}
 
-class StackExamplePage extends StatelessWidget {
+// Create a corresponding State class. This class will hold the data related to
+// the form.
+class MyCustomFormState extends State<MyCustomForm> {
+  // Create a global key that will uniquely identify the Form widget and allow
+  // us to validate the form
+  //
+  // Note: This is a GlobalKey<FormState>, not a GlobalKey<MyCustomFormState>!
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        backgroundColor: Colors.grey,
-        appBar: new AppBar(title: new Text('Stack Example')),
-        body: _createStack());
-  }
-
-  _createStack() {
-    return new Stack(children: <Widget>[
-      new Image.network(
-        'https://i.imgur.com/FsXL8vI.jpg',
-      ),
-      // Black square centered in stack
-      new Align(
-        alignment: new Alignment(0.0, 0.0),
-        child: new Container(
-          height: 50.0,
-          width: 50.0,
-          child: new DecoratedBox(
-            decoration: new BoxDecoration(color: Colors.black),
+    // Build a Form widget using the _formKey we created above
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextFormField(
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+            },
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: RaisedButton(
+              onPressed: () {
+                // Validate will return true if the form is valid, or false if
+                // the form is invalid.
+                if (_formKey.currentState.validate()) {
+                  // If the form is valid, we want to show a Snackbar
+                  Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text('Processing Data')));
+                }
+              },
+              child: Text('Submit'),
+            ),
+          ),
+        ],
       ),
-      new Align(
-        // alignment: Alignment.topLeft,
-        alignment: const Alignment(-1.0, -1.0),
-        child: new Text('Top Left', style: new TextStyle(color: Colors.yellow)),
-      ),
-      new Align(
-        // alignment: Alignment.bottomRight,
-        alignment: const Alignment(1.0, 1.0),
-        child: new Text('Bottom Right',
-            style: new TextStyle(color: Colors.yellow)),
-      ),
-      new Align(
-        alignment: new Alignment(-0.8, -0.8),
-        child: new Text('10% in', style: new TextStyle(color: Colors.yellow)),
-      ),
-      new Align(
-        alignment: new Alignment(0.8, 0.8),
-        child: new Text('90% in', style: new TextStyle(color: Colors.yellow)),
-      ),
-    ]);
+    );
   }
 }

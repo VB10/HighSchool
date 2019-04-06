@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:highschool/screen/login/login.dart';
+import 'package:highschool/screen/login/tt.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,13 +9,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: LoginPage(),
-    );
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: LoginPage());
   }
 }
-

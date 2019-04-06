@@ -14,6 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String title = "School Education System";
   FocusNode myFocusNode;
+  final _formKey = GlobalKey<FormState>();
 
   double deviceWidth;
   double deviceHeight;
@@ -31,55 +32,68 @@ class _LoginPageState extends State<LoginPage> {
     deviceWidth = MediaQuery.of(context).size.width;
     deviceHeight = MediaQuery.of(context).size.height;
     bottomInsight = MediaQuery.of(context).viewInsets.bottom;
-    var child2 = Padding(
+    var body = Padding(
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-      child: Column(
-        children: <Widget>[
-          Material(
-            shadowColor: Colors.black,
-            elevation: 10.0,
-            child: TextField(
-              focusNode: myFocusNode,
-              onTap: () => {},
-              textAlign: TextAlign.left,
-              maxLines: 1,
-              decoration: inputDecoration(
-                  "School Number", Icons.supervised_user_circle),
-              style: inputTextStyle,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Material(
-            shadowColor: Colors.black,
-            elevation: 10.0,
-            child: TextField(
-              textAlign: TextAlign.left,
-              maxLines: 1,
-              decoration: inputDecoration("School Password", Icons.lock_open),
-              style: inputTextStyle,
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          CustomBox(
-            child: RaisedButton(
-              onPressed: () =>
-                  {print(MediaQuery.of(context).viewInsets.bottom)},
-              color: LOGIN_submitButtonColor,
-              child: Container(
-                child: Text(
-                  "Giriş Yap",
-                  textAlign: TextAlign.center,
-                  style: buttonTextStyle,
-                ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            Material(
+              shadowColor: Colors.black,
+              elevation: 10.0,
+              child: TextFormField(
+                focusNode: myFocusNode,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "Please enter user number";
+                  }
+                },
+                textAlign: TextAlign.left,
+                maxLines: 1,
+                decoration: inputDecoration(
+                    "School Number", Icons.supervised_user_circle),
+                style: inputTextStyle,
               ),
             ),
-            height: 50,
-          )
-        ],
+            SizedBox(
+              height: 50,
+            ),
+            Material(
+              shadowColor: Colors.black,
+              elevation: 10.0,
+              child: TextFormField(
+                textAlign: TextAlign.left,
+                maxLines: 1,
+                obscureText: true,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "Please enter password";
+                  }
+                },
+                
+                decoration: inputDecoration("School Password", Icons.lock_open),
+                style: inputTextStyle,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CustomBox(
+              child: RaisedButton(
+                onPressed: () => {_formKey.currentState.validate()},
+                color: LOGIN_submitButtonColor,
+                child: Container(
+                  child: Text(
+                    "Giriş Yap",
+                    textAlign: TextAlign.center,
+                    style: buttonTextStyle,
+                  ),
+                ),
+              ),
+              height: 50,
+            )
+          ],
+        ),
       ),
     );
     var headerStack = Stack(
@@ -103,46 +117,30 @@ class _LoginPageState extends State<LoginPage> {
         )
       ],
     );
-    var finalx = Scaffold(
-      resizeToAvoidBottomInset: false,
+    var content = Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
-      fit: StackFit.loose,
-      
-      children: <Widget>[
-        AnimatedContainer(
-          duration: Duration(milliseconds: 500),
-          height: bottomInsight == 0 ? deviceHeight * 0.5 : deviceHeight * 0.2,
-          child: headerStack,
-          curve: Curves.linear,
-        ),
-        AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            curve: Curves.linear,
-            margin: EdgeInsets.only(
-              top: bottomInsight == 0
-                  ? deviceHeight * 0.5 - 30
-                  : deviceHeight * 0.2,
+          fit: StackFit.loose,
+          children: <Widget>[
+            AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              height:
+                  bottomInsight == 0 ? deviceHeight * 0.5 : deviceHeight * 0.2,
+              child: headerStack,
+              curve: Curves.linear,
             ),
-            child: child2),
-      ],
-    ));
-    var finalx2 = Scaffold(
-        body: Stack(
-      fit: StackFit.loose,
-      children: <Widget>[
-        AnimatedContainer(
-          height: deviceHeight * 0.2,
-          duration: Duration(seconds: 2),
-          child: headerStack,
-        ),
-        AnimatedContainer(
-          duration: Duration(seconds: 2),
-          margin: EdgeInsets.only(top: deviceHeight * 0.2),
-          child: child2,
-        ),
-      ],
-    ));
+            AnimatedContainer(
+                duration: Duration(milliseconds: 500),
+                curve: Curves.linear,
+                margin: EdgeInsets.only(
+                  top: bottomInsight == 0
+                      ? deviceHeight * 0.5 - 30
+                      : deviceHeight * 0.2,
+                ),
+                child: body),
+          ],
+        ));
 
-    return finalx;
+    return content;
   }
 }
