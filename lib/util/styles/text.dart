@@ -14,9 +14,7 @@ inputDecoration(String hint, IconData icon) {
   return InputDecoration(
     hintText: hint,
     suffixIcon: Icon(icon),
-    errorBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.red)
-    ), 
+    errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
     enabledBorder: OutlineInputBorder(
       // width: 0.0 produces a thin "hairline" border
       borderSide:
