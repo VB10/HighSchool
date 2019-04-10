@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:highschool/screen/feed/main.dart';
 import 'package:highschool/screen/login/login.dart';
 import 'package:highschool/screen/login/tt.dart';
 
@@ -11,6 +12,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          '/login': (context) => LoginPage(),
+          // When we navigate to the "/second" route, build the SecondScreen Widget
+          '/feeds': (context) => FeedScreen(),
+        },
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

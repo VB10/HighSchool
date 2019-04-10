@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
+//TODO FIX DESIGN FOR ATOMIC 
 class _LoginPageState extends State<LoginPage> {
   String title = "School Education System";
   FocusNode myFocusNode;
@@ -70,7 +71,6 @@ class _LoginPageState extends State<LoginPage> {
                     return "Please enter password";
                   }
                 },
-                
                 decoration: inputDecoration("School Password", Icons.lock_open),
                 style: inputTextStyle,
               ),
@@ -80,7 +80,14 @@ class _LoginPageState extends State<LoginPage> {
             ),
             CustomBox(
               child: RaisedButton(
-                onPressed: () => {_formKey.currentState.validate()},
+                onPressed: () {
+               
+
+                  if (_formKey.currentState.validate()) {
+                     Navigator.pushNamed(context, '/feeds');
+                  } else {
+                  }
+                },
                 color: LOGIN_submitButtonColor,
                 child: Container(
                   child: Text(
