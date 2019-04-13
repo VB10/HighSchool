@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:highschool/screen/feed/main.dart';
 import 'package:highschool/screen/login/login.dart';
-import 'package:highschool/screen/login/tt.dart';
 
 void main() => runApp(MyApp());
 
