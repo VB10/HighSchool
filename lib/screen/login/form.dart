@@ -11,7 +11,6 @@ class LoginFormWidget extends StatefulWidget {
 class _LoginFormWidgetState extends State<LoginFormWidget> {
   final formKey = GlobalKey<FormState>();
   FocusNode myFocusNode;
-
   TextEditingController _usernameTEC = new TextEditingController();
   TextEditingController _passwordTEC = new TextEditingController();
 
@@ -79,10 +78,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             CustomBox(
               child: RaisedButton(
                 onPressed: () {
-                  clear();
-                  // if (formKey.currentState.validate()) {
-                  //   Navigator.pushNamed(context, '/feeds');
-                  // } else {}
+                  if (formKey.currentState.validate()) {
+                    Navigator.pushNamed(context, '/feeds');
+                  } else {}
                 },
                 color: LOGIN_submitButtonColor,
                 child: Container(

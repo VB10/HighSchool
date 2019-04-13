@@ -8,7 +8,6 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-//TODO FIX DESIGN FOR ATOMIC
 class _LoginPageState extends State<LoginPage> {
   String title = "School Education System";
 
@@ -16,7 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   double deviceHeight;
   double bottomInsight;
   double height = 20;
-  
+
   @override
   void initState() {
     super.initState();
