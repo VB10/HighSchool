@@ -26,7 +26,7 @@ class _FeedScreenState extends State<FeedScreen> {
     for (var i = 0; i < data.length; i++) {
       String title = data[i]["login"];
       int id = data[i]["id"];
-      User movie = new User(name: title, id: id);
+      User movie = new User(title, id.toString());
       list.add(movie);
     }
     return list;
@@ -45,7 +45,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   return new Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        new Text(snapshot.data[index].name,
+                        new Text(snapshot.data[index].username,
                             style: new TextStyle(fontWeight: FontWeight.bold)),
                         new Divider()
                       ]);

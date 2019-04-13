@@ -69,9 +69,14 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
 		// json.NewEncoder(w).Encode(user)
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(user)
+		if user.Username == "veli" && user.Password == "12345" {
+			w.WriteHeader(http.StatusOK)
+		} else {
+			w.WriteHeader(http.StatusNotFound)
+		}
+
+		//write response data
+		// json.NewEncoder(w).Encode(user)
 		// fmt.Fprint(w, user.password)
 	} else {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)

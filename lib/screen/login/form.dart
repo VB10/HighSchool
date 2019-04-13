@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:highschool/component/box/sized.dart';
+import 'package:highschool/model/user.dart';
+import 'package:highschool/util/const/service.dart';
 import 'package:highschool/util/styles/color.dart';
 import 'package:highschool/util/styles/text.dart';
+import 'package:http/http.dart' as http;
 
 class LoginFormWidget extends StatefulWidget {
   @override
@@ -23,6 +28,20 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   void clear() {
     this._usernameTEC.clear();
     this._passwordTEC.clear();
+  }
+
+  Future getUserControl() async {
+    User user = new User("veli", "12345");
+    String json = jsonEncode(user);
+    final response = await http.post(BASE_URL + "api/login",
+        body: json, headers: {"Content-Type": "application/json"});
+    if (response.statusCode == ResponseStatus.StatusOK.value) {
+      print("oke");
+    } else if (response.statusCode == ResponseStatus.StatusNotFound.value) {
+      print("err");
+    } else {
+      print("it's have any error ${response.statusCode}");
+    }
   }
 
   @override
@@ -79,7 +98,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               child: RaisedButton(
                 onPressed: () {
                   if (formKey.currentState.validate()) {
-                    Navigator.pushNamed(context, '/feeds');
+                    getUserControl();
+                    // Navigator.pushNamed(context, '/feeds');
                   } else {}
                 },
                 color: LOGIN_submitButtonColor,
