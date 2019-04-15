@@ -34,3 +34,15 @@ const buttonTextStyle = TextStyle(
     fontFamily: "Poppins",
     fontStyle: FontStyle.normal,
     fontSize: 18.0);
+const roleTitleTextStyle = TextStyle(
+    color: const Color(0xffffffff),
+    fontWeight: FontWeight.w400,
+    fontFamily: "Poppins",
+    fontStyle: FontStyle.normal,
+    fontSize: 13.0);
+const roleTitleStyle = TextStyle(
+    color: const Color(0xff024b80),
+    fontWeight: FontWeight.w600,
+    fontFamily: "Poppins",
+    fontStyle: FontStyle.normal,
+    fontSize: 15.0);
