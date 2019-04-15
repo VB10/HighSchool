@@ -33,9 +33,11 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   Future getUserControl() async {
     User user = new User("veli", "12345");
     String json = jsonEncode(user);
+    print(BASE_URL + "api/login");
     final response = await http.post(BASE_URL + "api/login",
         body: json, headers: {"Content-Type": "application/json"});
     if (response.statusCode == ResponseStatus.StatusOK.value) {
+      Navigator.pushNamed(context, '/loginrole');
       print("oke");
     } else if (response.statusCode == ResponseStatus.StatusNotFound.value) {
       print("err");
@@ -43,6 +45,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
       print("it's have any error ${response.statusCode}");
     }
   }
+
+  void onPress() {}
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +61,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               elevation: 10.0,
               child: TextFormField(
                 focusNode: myFocusNode,
+                autovalidate: true,
                 validator: (value) {
                   if (value.isEmpty) {
                     return "Please enter user number";
@@ -82,6 +87,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 maxLines: 1,
                 obscureText: true,
                 onSaved: (value) {},
+                autovalidate: true,
                 validator: (value) {
                   if (value.isEmpty) {
                     return "Please enter password";
@@ -100,7 +106,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   if (formKey.currentState.validate()) {
                     getUserControl();
                     // Navigator.pushNamed(context, '/feeds');
-                  } else {}
+                  } else {
+                    return;
+                  }
                 },
                 color: LOGIN_submitButtonColor,
                 child: Container(
