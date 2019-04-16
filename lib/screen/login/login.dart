@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:highschool/screen/login/form.dart';
 import 'package:highschool/screen/login/header.dart';
+import 'package:highschool/screen/role/login.dart';
 import 'package:highschool/util/device/index.dart' as helper;
+import 'package:highschool/util/device/localdata.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -19,8 +23,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+          startTime();
+
+  }
+  startTime() async {
+    var _duration = new Duration(seconds: 1);
+    return new Timer(_duration, navigationPage);
   }
 
+  void navigationPage() { //landing screen replace with splash screen.
+    Navigator.of(context).pushReplacementNamed('/loginrole');
+  }
   @override
   Widget build(BuildContext context) {
     deviceWidth = helper.HelperDevice.deviceWidth(context);
@@ -46,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: bodyWidget),
           ],
         ));
+
   }
 
   double marginTopHelper(double bottom) {

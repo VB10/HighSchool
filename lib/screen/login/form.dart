@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:highschool/component/box/sized.dart';
 import 'package:highschool/model/user.dart';
 import 'package:highschool/util/const/service.dart';
+import 'package:highschool/util/device/localdata.dart';
 import 'package:highschool/util/styles/color.dart';
 import 'package:highschool/util/styles/text.dart';
 import 'package:http/http.dart' as http;
@@ -31,18 +32,20 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   }
 
   Future getUserControl() async {
-    User user = new User("veli", "12345");
+    User user = new User(_usernameTEC.text, _passwordTEC.text);
     String json = jsonEncode(user);
     print(BASE_URL + "api/login");
     final response = await http.post(BASE_URL + "api/login",
         body: json, headers: {"Content-Type": "application/json"});
     if (response.statusCode == ResponseStatus.StatusOK.value) {
-      Navigator.pushNamed(context, '/loginrole');
+      Map<String, dynamic> token = jsonDecode(response.body);
+      LocalData.setData(token['userID']);
+      Navigator.pushNamed(context, "/loginrole");
       print("oke");
     } else if (response.statusCode == ResponseStatus.StatusNotFound.value) {
       print("err");
     } else {
-      print("it's have any error ${response.statusCode}");
+      print("Not Found ${response.statusCode}");
     }
   }
 
