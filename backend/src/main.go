@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
 
@@ -20,11 +21,6 @@ func main() {
 	r.HandleFunc("/api/login", GetHandler).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8080", r))
 
-}
-
-type myData struct {
-	Owner string
-	Name  string
 }
 
 var results []string
@@ -49,6 +45,11 @@ type User struct {
 	Password string `json:"password"`
 }
 
+//UserToken retrive id
+type UserToken struct {
+	UserID string `json:"userID"`
+}
+
 // PostHandler control username password
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -71,6 +72,17 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 		// json.NewEncoder(w).Encode(user)
 		if user.Username == "veli" && user.Password == "12345" {
 			w.WriteHeader(http.StatusOK)
+			id, err := uuid.NewUUID()
+			if err != nil {
+				// handle error
+				print("not genarated uui.")
+			}
+			// fmt.Printf(id.String())
+			// fmt.Fprint(w, id.String())
+			var token UserToken
+			token.UserID = id.String()
+			json.NewEncoder(w).Encode(token)
+
 		} else {
 			w.WriteHeader(http.StatusNotFound)
 		}
