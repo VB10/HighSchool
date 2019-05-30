@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:highschool/component/box/sized.dart';
-import 'package:highschool/util/styles/color.dart';
-import 'package:highschool/util/styles/text.dart';
+import 'package:highschool/screen/login/form.dart';
+import 'package:highschool/screen/login/header.dart';
+import 'package:highschool/screen/role/login.dart';
+import 'package:highschool/util/device/index.dart' as helper;
+import 'package:highschool/util/device/localdata.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,80 +13,60 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String title = "Eğitim Yönetim Sistemi";
+  String title = "School Education System";
+
+  double deviceWidth;
+  double deviceHeight;
+  double bottomInsight;
+  double height = 20;
 
   @override
+  void initState() {
+    super.initState();
+          startTime();
+
+  }
+  startTime() async {
+    var _duration = new Duration(seconds: 1);
+    return new Timer(_duration, navigationPage);
+  }
+
+  void navigationPage() { //landing screen replace with splash screen.
+    Navigator.of(context).pushReplacementNamed('/loginrole');
+  }
+  @override
   Widget build(BuildContext context) {
+    deviceWidth = helper.HelperDevice.deviceWidth(context);
+    deviceHeight = helper.HelperDevice.deviceHeight(context);
+    bottomInsight = helper.HelperDevice.deviceBottomInsight(context);
+
+    var bodyWidget = LoginFormWidget();
+    var headerStack = LoginHeaderWidget(title: this.title);
     return Scaffold(
-      body: Container(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                flex: 3,
-                child: Container(
-                  color: Colors.red,
-                  child: Center(
-                    child: Text(
-                      this.title,
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontFamily: "PermanentMarker"),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: Container(
-                    color: LOGIN_backgroundColor,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 20,
-                          ),
-                          TextField(
-                            textAlign: TextAlign.left,
-                            decoration: inputDecoration(
-                                "Sicil Kimlik veya TC. No Giriniz",
-                                Icons.account_circle),
-                            style: inputTextStyle,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          TextField(
-                            textAlign: TextAlign.left,
-                            decoration: inputDecoration(
-                                "Şifrenizi Giriniz", Icons.account_circle),
-                            style: inputTextStyle,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          CustomSizedBox(
-                            child: RaisedButton(
-                              onPressed: () => {},
-                              color: LOGIN_submitButtonColor,
-                              child: Container(
-                                child: Text(
-                                  "Giriş Yap",
-                                  textAlign: TextAlign.center,
-                                  style: buttonTextStyle,
-                                ),
-                              ),
-                            ),
-                            height: 50,
-                          )
-                        ],
-                      ),
-                    )),
-              )
-            ],
-          )),
-    );
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: <Widget>[
+            AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              height: heightHelper(bottomInsight),
+              child: headerStack,
+              curve: Curves.linear,
+            ),
+            AnimatedContainer(
+                duration: Duration(milliseconds: 500),
+                curve: Curves.linear,
+                margin: EdgeInsets.only(top: marginTopHelper(bottomInsight)),
+                child: bodyWidget),
+          ],
+        ));
+
+  }
+
+  double marginTopHelper(double bottom) {
+    return bottom == 0 ? deviceHeight * 0.5 - 30 : deviceHeight * 0.2;
+  }
+
+  double heightHelper(double bottom) {
+    return bottom == 0 ? deviceHeight * 0.5 : deviceHeight * 0.2;
   }
 }
